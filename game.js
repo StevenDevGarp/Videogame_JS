@@ -13,6 +13,11 @@ const playesPosition ={
     y: undefined
 }
 
+const  giftPosition = {
+    x: undefined,
+    y: undefined
+}
+
 window.addEventListener('load', setCanvasSize);
 window.addEventListener('resize', setCanvasSize);
 
@@ -39,7 +44,7 @@ function startGame(){
     game.font = elementSize + 'px Verdana';
     game.textAlign = 'end';
 
-    console.log(canvasSize);
+    
     const mapper = maps[0].match(/[IXO\-]+/g).map(x => x.split(""));
 
     mapper.forEach((row, y) => {
@@ -48,11 +53,16 @@ function startGame(){
             const posX = elementSize *(x+1);
             const posY = elementSize *(y+1);
 
-            if (col == 'O'){
-                playesPosition.x = posX;
-                playesPosition.y = posY;
-                
-            }
+            if (col == 'O') {
+                if (!playesPosition.x && !playesPosition.y) {
+                  playesPosition.x = posX;
+                  playesPosition.y = posY;
+                  console.log({playesPosition});
+                }
+              } else if (col == 'I') {
+                giftPosition.x = posX;
+                giftPosition.y = posY;
+              }
 
             movePlayer();
             game.fillText(emoji, posX, posY);
@@ -83,7 +93,15 @@ function renderMap(){
 }
 
 function movePlayer (){
-game.fillText(emojis['PLAYER'], playesPosition.x, playesPosition.y);
+    const giftCollisionX = playesPosition.x == giftPosition.x;
+    const giftCollisionY = playesPosition.y == giftPosition.y;
+    const giftCollision = giftCollisionX && giftCollisionY;
+  
+    if (giftCollision) {
+        console.log('Subiste de nisvel!');
+    }
+
+    game.fillText(emojis['PLAYER'], playesPosition.x, playesPosition.y);
 }
 
 function clearMap(){
@@ -104,26 +122,43 @@ function moveByKeys(event) {
 }
 
 function moveUp (){
+    if ((playesPosition.y - elementSize) < elementSize){
+        console.log('OUT');
+    }else{
     clearMap();
     renderMap();
     playesPosition.y -= elementSize;
     movePlayer();
+    }
 }
 function moveDown (){
+    if ((playesPosition.y + elementSize) > canvasSize){
+        console.log('OUT');
+    }else{
     clearMap();
     renderMap();
     playesPosition.y += elementSize;
-movePlayer();
+    movePlayer();
+    }
 }
 function moveLeft (){
+    if ((playesPosition.x - elementSize) < elementSize){
+        console.log('OUT');
+    }else{
     clearMap();
     renderMap();
     playesPosition.x -= elementSize;
     movePlayer();
+    }
 }
 function moveRight (){
+    if ((playesPosition.x + elementSize) > canvasSize){
+        console.log('OUT');
+    }else{
     clearMap();
     renderMap();
     playesPosition.x += elementSize;
     movePlayer();
+    }
 }
+
