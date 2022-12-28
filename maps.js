@@ -12,8 +12,22 @@ const emojis = {
     'BOMB_COLLISION': '🔥',
     'GAME_OVER': '👎',
     'WIN': '🏆',
+    'Y': '🏆',
+    'HEART': '❤️',
   };
-  
+  const mapWin = [];
+  mapWin.push(`
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  YYYYYYYYYY
+  `);
   const maps = [];
   maps.push(`
   IXXXXXXXXX
